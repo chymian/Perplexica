@@ -57,11 +57,11 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.FE.${HASH}.rule=Host(`${PERPLEXICA_HOST}`)"
-      - "traefik.http.services.FE.${HASH}.loadbalancer.server.port=${PERPLEXICA_FE_PORT}"
-      - "traefik.http.routers.FE.${HASH}.entrypoints=websecure"
-      #- "traefik.http.routers.FE.${HASH}.entrypoints=web"
-      - "traefik.http.routers.FE.${HASH}.tls.certResolver=letsencrypt"
+      - "traefik.http.routers.FE-${HASH}.rule=Host(`${PERPLEXICA_HOST}`)"
+      - "traefik.http.services.FE-${HASH}.loadbalancer.server.port=${PERPLEXICA_FE_PORT}"
+      - "traefik.http.routers.FE-${HASH}.entrypoints=websecure"
+      - "traefik.http.routers.FE-${HASH}.entrypoints=web"
+      - "traefik.http.routers.FE-${HASH}.tls.certResolver=letsencrypt"
 
 networks:
   dokploy-network:
