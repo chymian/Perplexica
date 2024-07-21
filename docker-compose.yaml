@@ -6,8 +6,15 @@ services:
     ports:
       - 4000:8080
     networks:
-      - perplexica-network
+      - dokploy-network
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.SXNG.${HASH}.rule=Host(`${PERPLEXICA_SXNG_HOST}`)"
+      - "traefik.http.services.SXNG.${HASH}.loadbalancer.server.port=${PERPLEXICA_SXNG_PORT}"
+      - "traefik.http.routers.SXNG.${HASH}.entrypoints=websecure"
+      #- "traefik.http.routers.SXNG.${HASH}.entrypoints=web"
+      - "traefik.http.routers.SXNG.${HASH}.tls.certResolver=letsencrypt"
 
   perplexica-backend:
     build:
@@ -24,8 +31,15 @@ services:
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     networks:
-      - perplexica-network
+      - dokploy-network
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.BE.${HASH}.rule=Host(`${PERPLEXICA_HOST}`)"
+      - "traefik.http.services.BE.${HASH}.loadbalancer.server.port=${PERPLEXICA_BE_PORT}"
+      - "traefik.http.routers.BE.${HASH}.entrypoints=websecure"
+      #- "traefik.http.routers.BE.${HASH}.entrypoints=web"
+      - "traefik.http.routers.BE.${HASH}.tls.certResolver=letsencrypt"
 
   perplexica-frontend:
     build:
@@ -39,11 +53,19 @@ services:
     ports:
       - 3000:3000
     networks:
-      - perplexica-network
+      - dokploy-network
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.FE.${HASH}.rule=Host(`${PERPLEXICA_HOST}`)"
+      - "traefik.http.services.FE.${HASH}.loadbalancer.server.port=${PERPLEXICA_FE_PORT}"
+      - "traefik.http.routers.FE.${HASH}.entrypoints=websecure"
+      #- "traefik.http.routers.FE.${HASH}.entrypoints=web"
+      - "traefik.http.routers.FE.${HASH}.tls.certResolver=letsencrypt"
 
 networks:
-  perplexica-network:
+  dokploy-network:
+    external: true
 
 volumes:
   backend-dbstore:
