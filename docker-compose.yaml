@@ -33,6 +33,8 @@ services:
     networks:
       - dokploy-network
     restart: unless-stopped
+    environment:
+      - GROQ: ${GROQ_API_KEY}
     labels:
       - "traefik.enable=false"
       - "traefik.http.routers.BE.${HASH}.rule=Host(`${PERPLEXICA_BE_HOST}`)"
