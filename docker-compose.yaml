@@ -12,8 +12,8 @@ services:
       - "traefik.enable=false"
       - "traefik.http.routers.SXNG.${HASH}.rule=Host(`${PERPLEXICA_SXNG_HOST}`)"
       - "traefik.http.services.SXNG.${HASH}.loadbalancer.server.port=${PERPLEXICA_SXNG_PORT}"
-      - "traefik.http.routers.SXNG.${HASH}.entrypoints=websecure"
-      #- "traefik.http.routers.SXNG.${HASH}.entrypoints=web"
+      #- "traefik.http.routers.SXNG.${HASH}.entrypoints=websecure"
+      - "traefik.http.routers.SXNG.${HASH}.entrypoints=web"
       - "traefik.http.routers.SXNG.${HASH}.tls.certResolver=letsencrypt"
 
   perplexica-backend:
@@ -35,10 +35,10 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=false"
-      - "traefik.http.routers.BE.${HASH}.rule=Host(`${PERPLEXICA_HOST}`)"
+      - "traefik.http.routers.BE.${HASH}.rule=Host(`${PERPLEXICA_BE_HOST}`)"
       - "traefik.http.services.BE.${HASH}.loadbalancer.server.port=${PERPLEXICA_BE_PORT}"
-      - "traefik.http.routers.BE.${HASH}.entrypoints=websecure"
-      #- "traefik.http.routers.BE.${HASH}.entrypoints=web"
+      #- "traefik.http.routers.BE.${HASH}.entrypoints=websecure"
+      - "traefik.http.routers.BE.${HASH}.entrypoints=web"
       - "traefik.http.routers.BE.${HASH}.tls.certResolver=letsencrypt"
 
   perplexica-frontend:
@@ -52,6 +52,8 @@ services:
       - perplexica-backend
     expose:
       - ${PERPLEXICA_FE_PORT}
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     networks:
       - dokploy-network
     restart: unless-stopped
@@ -60,7 +62,7 @@ services:
       - "traefik.http.routers.FE-${HASH}.rule=Host(`${PERPLEXICA_FE_HOST}`)"
       - "traefik.http.services.FE-${HASH}.loadbalancer.server.port=${PERPLEXICA_FE_PORT}"
       - "traefik.http.routers.FE-${HASH}.entrypoints=websecure"
-      - "traefik.http.routers.FE-${HASH}.entrypoints=web"
+      #- "traefik.http.routers.FE-${HASH}.entrypoints=web"
       - "traefik.http.routers.FE-${HASH}.tls.certResolver=letsencrypt"
 
 networks:
