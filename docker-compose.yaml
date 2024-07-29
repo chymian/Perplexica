@@ -7,6 +7,8 @@ services:
       - ${PERPLEXICA_SXNG_PORT}
     networks:
       - dokploy-network
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     restart: unless-stopped
     labels:
       - "traefik.enable=false"
