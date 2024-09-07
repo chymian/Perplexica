@@ -30,6 +30,7 @@ services:
       - ${PERPLEXICA_BE_PORT}
     volumes:
       - backend-dbstore:/home/perplexica/data
+      - ./config.toml:/home/perplexica/config.toml
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     networks:
