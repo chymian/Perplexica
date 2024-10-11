@@ -22,13 +22,13 @@ type Message = {
 
 type WSMessage = {
   message: Message;
-  copilot: boolean;
+  optimizationMode: string;
   type: string;
   focusMode: string;
   history: Array<[string, string]>;
 };
 
-const searchHandlers = {
+export const searchHandlers = {
   webSearch: handleWebSearch,
   academicSearch: handleAcademicSearch,
   writingAssistant: handleWritingAssistant,
@@ -138,6 +138,7 @@ export const handleMessage = async (
           history,
           llm,
           embeddings,
+          parsedWSMessage.optimizationMode,
         );
 
         handleEmitterEvents(emitter, ws, id, parsedMessage.chatId);
