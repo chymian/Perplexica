@@ -43,6 +43,7 @@ const useSocket = (
           {
             headers: {
               'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
             },
           },
         ).then(async (res) => await res.json());
