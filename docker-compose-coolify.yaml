@@ -10,11 +10,12 @@ services:
     restart: unless-stopped
 
   perplexica-backend:
-    build:
-      context: .
-      dockerfile: backend.dockerfile
-      args:
-        - SEARXNG_API_URL=${SEARXNG_API_URL:-http://searxng:8080}
+   # build:
+   #   context: .
+   #   dockerfile: backend.dockerfile
+   #   args:
+   #     - SEARXNG_API_URL=${SEARXNG_API_URL:-http://searxng:8080}
+    image: itzcrazykns1337/perplexica-backend:main
     depends_on:
       - searxng
     ports:
@@ -31,12 +32,13 @@ services:
     restart: unless-stopped
 
   perplexica-frontend:
-    build:
-      context: .
-      dockerfile: app.dockerfile
-      args:
-        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://perplexica-backend:3001/api}
-        - NEXT_PUBLIC_WS_URL=${NEXT_PUBLIC_WS_URL:-ws://perplexica-backend:3001}
+  #  build:
+  #    context: .
+  #    dockerfile: app.dockerfile
+  #    args:
+  #      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://perplexica-backend:3001/api}
+  #      - NEXT_PUBLIC_WS_URL=${NEXT_PUBLIC_WS_URL:-ws://perplexica-backend:3001}
+    image: itzcrazykns1337/perplexica-frontend:main
     env_file:
       - .env
     depends_on:
