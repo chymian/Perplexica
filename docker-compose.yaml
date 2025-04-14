@@ -1,22 +1,24 @@
 services:
   searxng:
     image: docker.io/searxng/searxng:latest
+    pull_policy: always
     volumes:
       - ./searxng:/etc/searxng:rw
-    ports:
+    expose:
       - 4000:8080
     networks:
       - perplexica-network
     restart: unless-stopped
 
   app:
+  pull_policy: always
     image: itzcrazykns1337/perplexica:main
     build:
       context: .
       dockerfile: app.dockerfile
     environment:
       - SEARXNG_API_URL=http://searxng:8080
-    ports:
+    expose:
       - 3000:3000
     networks:
       - perplexica-network
